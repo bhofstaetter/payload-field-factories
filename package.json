@@ -1,0 +1,51 @@
+{
+    "name": "payload-field-factories",
+    "version": "0.0.1",
+    "description": "Opinionated factory functions for Payload CMS field configurations.",
+    "license": "MIT",
+    "author": "Benedikt Hofstätter",
+    "homepage": "https://github.com/bhofstaetter/payload-field-factories",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bhofstaetter/payload-field-factories.git"
+    },
+    "keywords": [
+        "payload",
+        "payloadcms",
+        "fields",
+        "field-factory",
+        "type-safe"
+    ],
+    "type": "module",
+    "files": [
+        "dist"
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "types": "./dist/index.d.ts"
+        }
+    },
+    "scripts": {
+        "build": "rm -rf dist && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+        "typecheck": "tsc",
+        "lint": "biome check",
+        "lint:fix": "biome check --fix",
+        "test": "vitest run",
+        "prepublishOnly": "npm run lint && npm run typecheck && npm run test && npm run build"
+    },
+    "peerDependencies": {
+        "payload": ">=3"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "2.4.4",
+        "payload": "^3.78.0",
+        "tsc-alias": "^1.8.16",
+        "typescript": "^5",
+        "vite-tsconfig-paths": "^6.1.1",
+        "vitest": "^4.0.18"
+    },
+    "engines": {
+        "node": ">=22.0.0"
+    }
+}
