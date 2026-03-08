@@ -7,7 +7,11 @@ type Fields = GroupField['fields'];
 
 export function groupField(fields: Fields, overrides?: OverridesUnnamed): UnnamedGroupField;
 export function groupField(name: string, fields: Fields, overrides?: OverridesNamed): NamedGroupField;
-export function groupField(nameOrFields: string | Fields, fieldsOrOverrides?: Fields | OverridesUnnamed, overrides?: OverridesNamed): GroupField {
+export function groupField(
+    nameOrFields: string | Fields,
+    fieldsOrOverrides?: Fields | OverridesUnnamed,
+    overrides?: OverridesNamed,
+): GroupField {
     if (typeof nameOrFields === 'string') {
         return {
             type: 'group',

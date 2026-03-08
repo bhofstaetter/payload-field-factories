@@ -1,6 +1,6 @@
 {
     "name": "payload-field-factories",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "description": "Opinionated factory functions for Payload CMS field configurations.",
     "license": "MIT",
     "author": "Benedikt Hofstätter",
