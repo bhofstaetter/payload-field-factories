@@ -2,8 +2,6 @@
 
 ## Todo
 
-- numberField
-- emailField
 - collapsibleField
 - tabsField (NamedTab / UnnamedTab)
 - UIField
@@ -13,6 +11,4 @@
 - RichTextField
 - BlocksField
 - PointField
-- optimized (Named-) GroupField
-- polymorphic joinField
 - Tests
