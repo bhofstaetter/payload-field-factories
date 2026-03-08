@@ -1,7 +1,4 @@
-import type {GroupField} from 'payload';
-
-type UnnamedGroupField = Extract<GroupField, {name?: false | undefined}>;
-type NamedGroupField = Extract<GroupField, {name: string}>;
+import type {GroupField, NamedGroupField, UnnamedGroupField} from 'payload';
 
 type OverridesUnnamed = Partial<Omit<UnnamedGroupField, 'type' | 'fields'>>;
 type OverridesNamed = Partial<Omit<NamedGroupField, 'type' | 'name' | 'fields'>>;
