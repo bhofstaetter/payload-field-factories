@@ -3,7 +3,14 @@ import type {Tab, TabsField} from 'payload';
 type Tabs = Tab[];
 type Overrides = Partial<Omit<TabsField, 'type' | 'tabs'>>;
 
-export function tabsField(tabs: Tabs, overrides: Overrides = {}): TabsField {
+type Args = {
+    tabs: Tabs;
+    overrides?: Overrides;
+};
+
+export function tabsField(argsOrTabs: Args | Tabs): TabsField {
+    const {tabs, overrides = {}} = Array.isArray(argsOrTabs) ? {tabs: argsOrTabs} : argsOrTabs;
+
     return {
         type: 'tabs',
         tabs,

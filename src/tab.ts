@@ -2,30 +2,37 @@ import type {NamedTab, Tab, UnnamedTab} from 'payload';
 
 type Fields = Tab['fields'];
 type Label = UnnamedTab['label'];
+type UnnamedLabel = Exclude<Label, string>;
 
-type OverridesUnnamed = Partial<Omit<UnnamedTab, 'fields' | 'label'>>;
 type OverridesNamed = Partial<Omit<NamedTab, 'name' | 'fields'>>;
+type OverridesUnnamed = Partial<Omit<UnnamedTab, 'fields' | 'label'>>;
 
-export function tab(label: Label, fields: Fields, overrides?: OverridesUnnamed): UnnamedTab;
-export function tab(name: string, label: Label, fields: Fields, overrides?: OverridesNamed): NamedTab;
-export function tab(
-    nameOrLabel: string | Label,
-    labelOrFields: Label | Fields,
-    fieldsOrOverrides?: Fields | OverridesUnnamed,
-    overrides?: OverridesNamed,
-): Tab {
-    if (typeof nameOrLabel === 'string' && !Array.isArray(labelOrFields)) {
+type ArgsNamed = {
+    fields: Fields;
+    overrides?: OverridesNamed;
+};
+
+type ArgsUnnamed = {
+    fields: Fields;
+    overrides?: OverridesUnnamed;
+};
+
+export function tab(name: string, argsOrFields: ArgsNamed | Fields): NamedTab;
+export function tab(label: UnnamedLabel, argsOrFields: ArgsUnnamed | Fields): UnnamedTab;
+export function tab(nameOrLabel: string | UnnamedLabel, argsOrFields: ArgsNamed | ArgsUnnamed | Fields): Tab {
+    const {fields, overrides = {}} = Array.isArray(argsOrFields) ? {fields: argsOrFields} : argsOrFields;
+
+    if (typeof nameOrLabel === 'string') {
         return {
             name: nameOrLabel,
-            label: labelOrFields as Label,
-            fields: fieldsOrOverrides as Fields,
+            fields,
             ...overrides,
         } as Tab;
     }
 
     return {
-        label: nameOrLabel as Label,
-        fields: labelOrFields as Fields,
-        ...(fieldsOrOverrides as OverridesUnnamed),
+        label: nameOrLabel,
+        fields,
+        ...overrides,
     } as Tab;
 }

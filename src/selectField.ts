@@ -8,13 +8,21 @@ type OverridesMany = Partial<Omit<SelectFieldMany, 'type' | 'name' | 'options' |
 
 type Options = SelectField['options'];
 
-export function selectField(name: string, options: Options, overrides: OverridesMany): SelectFieldMany;
-export function selectField(name: string, options: Options, overrides?: OverridesSingle): SelectFieldSingle;
-export function selectField(
-    name: string,
-    options: Options,
-    overrides: OverridesMany | OverridesSingle = {},
-): SelectField {
+type ArgsMany = {
+    options: Options;
+    overrides: OverridesMany;
+};
+
+type ArgsSingle = {
+    options: Options;
+    overrides?: OverridesSingle;
+};
+
+export function selectField(name: string, argsSingleOrOptions: ArgsSingle | Options): SelectFieldSingle;
+export function selectField(name: string, argsManyOrOptions: ArgsMany | Options): SelectFieldMany;
+export function selectField(name: string, argsOrOptions: ArgsMany | ArgsSingle | Options): SelectField {
+    const {options, overrides = {}} = Array.isArray(argsOrOptions) ? {options: argsOrOptions} : argsOrOptions;
+
     return {
         type: 'select',
         name,

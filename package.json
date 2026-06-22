@@ -1,6 +1,6 @@
 {
     "name": "payload-field-factories",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Opinionated factory functions for Payload CMS field configurations.",
     "license": "MIT",
     "author": "Benedikt Hofstätter",
@@ -39,11 +39,10 @@
     },
     "devDependencies": {
         "@biomejs/biome": "2.4.4",
-        "payload": "^3.78.0",
-        "tsc-alias": "^1.8.16",
-        "typescript": "^5",
-        "vite-tsconfig-paths": "^6.1.1",
-        "vitest": "^4.0.18"
+        "payload": "^3.85.1",
+        "tsc-alias": "^1.8.17",
+        "typescript": "^5.9.3",
+        "vitest": "^4.1.9"
     },
     "engines": {
         "node": ">=22.0.0"

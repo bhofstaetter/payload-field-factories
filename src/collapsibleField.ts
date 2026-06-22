@@ -4,7 +4,14 @@ type Fields = CollapsibleField['fields'];
 type Label = NonNullable<CollapsibleField['label']>;
 type Overrides = Partial<Omit<CollapsibleField, 'type' | 'fields' | 'label'>>;
 
-export function collapsibleField(label: Label, fields: Fields, overrides: Overrides = {}): CollapsibleField {
+type Args = {
+    fields: Fields;
+    overrides?: Overrides;
+};
+
+export function collapsibleField(label: Label, argsOrFields: Args | Fields): CollapsibleField {
+    const {fields, overrides = {}} = Array.isArray(argsOrFields) ? {fields: argsOrFields} : argsOrFields;
+
     return {
         type: 'collapsible',
         label,

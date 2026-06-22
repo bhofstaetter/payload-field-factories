@@ -5,25 +5,40 @@ type OverridesNamed = Partial<Omit<NamedGroupField, 'type' | 'name' | 'fields'>>
 
 type Fields = GroupField['fields'];
 
-export function groupField(fields: Fields, overrides?: OverridesUnnamed): UnnamedGroupField;
-export function groupField(name: string, fields: Fields, overrides?: OverridesNamed): NamedGroupField;
+type ArgsNamed = {
+    fields: Fields;
+    overrides?: OverridesNamed;
+};
+
+type ArgsUnnamed = {
+    fields: Fields;
+    overrides?: OverridesUnnamed;
+};
+
+export function groupField(argsOrFields: ArgsUnnamed | Fields): UnnamedGroupField;
+export function groupField(name: string, argsOrFields: ArgsNamed | Fields): NamedGroupField;
 export function groupField(
-    nameOrFields: string | Fields,
-    fieldsOrOverrides?: Fields | OverridesUnnamed,
-    overrides?: OverridesNamed,
+    nameOrArgsOrFields: string | ArgsUnnamed | Fields,
+    argsOrFields?: ArgsNamed | Fields,
 ): GroupField {
-    if (typeof nameOrFields === 'string') {
+    if (typeof nameOrArgsOrFields === 'string') {
+        const {fields, overrides = {}} = Array.isArray(argsOrFields) ? {fields: argsOrFields} : (argsOrFields ?? {});
+
         return {
             type: 'group',
-            name: nameOrFields,
-            fields: fieldsOrOverrides as Fields,
+            name: nameOrArgsOrFields,
+            fields,
             ...overrides,
         } as GroupField;
     }
 
+    const {fields, overrides = {}} = Array.isArray(nameOrArgsOrFields)
+        ? {fields: nameOrArgsOrFields}
+        : nameOrArgsOrFields;
+
     return {
         type: 'group',
-        fields: nameOrFields,
-        ...(fieldsOrOverrides as OverridesUnnamed),
+        fields,
+        ...overrides,
     } as GroupField;
 }
