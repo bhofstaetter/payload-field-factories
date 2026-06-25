@@ -4,11 +4,13 @@ type NumberFieldSingle = Extract<NumberField, {hasMany?: false | undefined}>;
 type NumberFieldMany = Extract<NumberField, {hasMany: true}>;
 
 type OverridesSingle = Partial<Omit<NumberFieldSingle, 'type' | 'name'>>;
-type OverridesMany = Partial<Omit<NumberFieldMany, 'type' | 'name' | 'hasMany'>> & {hasMany: true};
+type OverridesMany = Partial<Omit<NumberFieldMany, 'type' | 'name'>>;
+type Overrides = OverridesSingle | OverridesMany;
 
-export function numberField(name: string, overrides: OverridesMany): NumberFieldMany;
+export function numberField(name: string, overrides: OverridesMany & {hasMany: true}): NumberFieldMany;
 export function numberField(name: string, overrides?: OverridesSingle): NumberFieldSingle;
-export function numberField(name: string, overrides: OverridesMany | OverridesSingle = {}): NumberField {
+export function numberField(name: string, overrides: Overrides): NumberField;
+export function numberField(name: string, overrides: Overrides = {}): NumberField {
     return {
         type: 'number',
         name,

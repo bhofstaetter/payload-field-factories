@@ -4,23 +4,19 @@ type SelectFieldSingle = Extract<SelectField, {hasMany?: false | undefined}>;
 type SelectFieldMany = Extract<SelectField, {hasMany: true}>;
 
 type OverridesSingle = Partial<Omit<SelectFieldSingle, 'type' | 'name' | 'options'>>;
-type OverridesMany = Partial<Omit<SelectFieldMany, 'type' | 'name' | 'options' | 'hasMany'>> & {hasMany: true};
+type OverridesMany = Partial<Omit<SelectFieldMany, 'type' | 'name' | 'options'>>;
+type Overrides = OverridesSingle | OverridesMany;
 
 type Options = SelectField['options'];
 
-type ArgsMany = {
-    options: Options;
-    overrides: OverridesMany;
-};
+type ArgsMany = {options: Options; overrides: OverridesMany & {hasMany: true}};
+type ArgsSingle = {options: Options; overrides?: OverridesSingle};
+type ArgsAny = {options: Options; overrides?: Overrides};
 
-type ArgsSingle = {
-    options: Options;
-    overrides?: OverridesSingle;
-};
-
-export function selectField(name: string, argsSingleOrOptions: ArgsSingle | Options): SelectFieldSingle;
-export function selectField(name: string, argsManyOrOptions: ArgsMany | Options): SelectFieldMany;
-export function selectField(name: string, argsOrOptions: ArgsMany | ArgsSingle | Options): SelectField {
+export function selectField(name: string, args: ArgsMany): SelectFieldMany;
+export function selectField(name: string, args: ArgsSingle | Options): SelectFieldSingle;
+export function selectField(name: string, args: ArgsAny | Options): SelectField;
+export function selectField(name: string, argsOrOptions: ArgsAny | Options): SelectField {
     const {options, overrides = {}} = Array.isArray(argsOrOptions) ? {options: argsOrOptions} : argsOrOptions;
 
     return {
