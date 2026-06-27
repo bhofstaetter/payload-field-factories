@@ -2,7 +2,7 @@ import type {DateField} from 'payload';
 
 type Overrides = Partial<Omit<DateField, 'type' | 'name'>>;
 
-export function dateField(name: string, overrides: Overrides = {}): DateField {
+export function timeField(name: string, overrides: Overrides = {}): DateField {
     const {admin, ...otherOverrides} = overrides;
     const {date, ...otherAdmin} = admin ?? {};
 
@@ -11,8 +11,10 @@ export function dateField(name: string, overrides: Overrides = {}): DateField {
         name,
         admin: {
             date: {
-                pickerAppearance: 'dayOnly',
-                displayFormat: 'dd.MM.yyyy',
+                pickerAppearance: 'timeOnly',
+                displayFormat: 'HH:mm',
+                timeFormat: 'HH:mm',
+                timeIntervals: 5,
                 ...date,
             },
             ...otherAdmin,
