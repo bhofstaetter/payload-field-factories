@@ -17,8 +17,10 @@ type ArgsUnnamed = {
     overrides?: OverridesUnnamed;
 };
 
-export function tab(name: string, argsOrFields: ArgsNamed | Fields): NamedTab;
-export function tab(label: UnnamedLabel, argsOrFields: ArgsUnnamed | Fields): UnnamedTab;
+export function tab<T extends string | UnnamedLabel>(
+    nameOrLabel: T,
+    argsOrFields: (T extends string ? ArgsNamed : ArgsUnnamed) | Fields,
+): T extends string ? NamedTab : UnnamedTab;
 export function tab(nameOrLabel: string | UnnamedLabel, argsOrFields: ArgsNamed | ArgsUnnamed | Fields): Tab {
     const {fields, overrides = {}} = Array.isArray(argsOrFields) ? {fields: argsOrFields} : argsOrFields;
 
